@@ -51,13 +51,10 @@ public class PushAgent extends Spider {
     public static String Token;
 
     @Override
-    public void init(Context context, String extend) {
-        super.init(context, extend);
-        Token = OkHttpUtil.string("http://home.jundie.top:666/token.txt", null);
-        } else {
-            Token = extend;
-        }
-    }
+    public void init(Context context, String extend) {
+        super.init(context, extend);
+        Token = OKHttpUtil.String("http://home.jundie.top:666/token.txt", null);
+    }
 
     protected static long Time() {
         return (System.currentTimeMillis() / 1000) + n;
