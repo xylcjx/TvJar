@@ -184,6 +184,7 @@ public class Gitcafe extends Spider {
                     String id = "https://www.aliyundrive.com/s/" + Data.getString("key");
                     v.put("vod_id", id);
                     v.put("vod_name", title);
+			  v.put("vod_pic", "https://www.lgstatic.com/i/image2/M01/15/7E/CgoB5lysLXCADg6ZAABapAHUnQM321.jpg");
                     videoList.put(v);
                 }
             }
