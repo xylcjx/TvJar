@@ -53,7 +53,11 @@ public class PushAgent extends Spider {
     @Override
     public void init(Context context, String extend) {
         super.init(context, extend);
-        Token = OkHttpUtil.string("http://home.jundie.top:666/token.txt", null);
+        if (extend.startsWith("http")) {
+            Token = OkHttpUtil.string(extend, null);
+        } else {
+            Token = extend;
+        }
     }
 
     protected static long Time() {
