@@ -34,14 +34,17 @@ public class AliPS extends Spider {
     }
 
     @Override
-    public String detailContent(List<String> list) {
+    public String detailContent(List<String> ids) {
         try {
-			 String url = b + ids.get(0).replace("s", "cv");
-        Map<String, List<String>> respHeaders = new HashMap<>();
-        OkHttpUtil.stringNoRedirect(url, getHeaders(ids.get(0)), respHeaders);
-        url = OkHttpUtil.getRedirectLocation(respHeaders);
-	
-            return pushAgent.detailContent(Arrays.asList(url));
+            Pattern pattern = a;
+            if (pattern.matcher(ids.get(0)).find()) {
+                return pushAgent.detailContent(ids);
+            }
+            url = b + "/cv/" + ids.get(0);
+            Map<String, List<String>> respHeaders = new TreeMap<>();
+            OkHttpUtil.stringNoRedirect(url, null, respHeaders);
+            ids.set(0, OkHttpUtil.getRedirectLocation(respHeaders));
+            return pushAgent.detailContent(ids);
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -52,28 +55,21 @@ public class AliPS extends Spider {
     public String playerContent(String str, String str2, List<String> list) {
         return pushAgent.playerContent(str, str2, list);
     }
-	
-	private Map<String, String> getHeaders(String id) {
-        HashMap<String, String> headers = new HashMap<>();
-		headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36");
-        headers.put("Referer", b + id);
-        headers.put("_bid", "d1810141fb539895ce233cdf66414ca7");
-        return headers;
-    }
+
 
     @Override
     public String searchContent(String key, boolean z) {
         try {
             HashMap hashMap = new HashMap();
             hashMap.put("7", "文件夹");
-            hashMap.put("1", "视频");
+         //   hashMap.put("1", "视频");
             JSONArray jSONArray = new JSONArray();
             Iterator entries = hashMap.entrySet().iterator();
             while (entries.hasNext()) {
                 Map.Entry entry = (Map.Entry) entries.next();
                 String str2 = (String) entry.getValue();
                 String sb2 = b + "/search?k=" + URLEncoder.encode(key) + "&t=" + (String) entry.getKey();
-                Document doc = Jsoup.parse(OkHttpUtil.string(sb2));
+                Document doc = Jsoup.parse(OkHttpUtil.string(sb2, null));
                 Elements Data = doc.select("van-row a");
                 for (int i = 0; i < Data.size(); i++) {
                     Element next = Data.get(i);
