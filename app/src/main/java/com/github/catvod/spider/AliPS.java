@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +41,7 @@ public class AliPS extends Spider {
             if (pattern.matcher(ids.get(0)).find()) {
                 return pushAgent.detailContent(ids);
             }
-            url = b + "/cv/" + ids.get(0);
+            String url = b + "/cv/" + ids.get(0);
             Map<String, List<String>> respHeaders = new TreeMap<>();
             OkHttpUtil.stringNoRedirect(url, null, respHeaders);
             ids.set(0, OkHttpUtil.getRedirectLocation(respHeaders));
@@ -62,7 +63,7 @@ public class AliPS extends Spider {
         try {
             HashMap hashMap = new HashMap();
             hashMap.put("7", "文件夹");
-         //   hashMap.put("1", "视频");
+            //   hashMap.put("1", "视频");
             JSONArray jSONArray = new JSONArray();
             Iterator entries = hashMap.entrySet().iterator();
             while (entries.hasNext()) {
